@@ -23,6 +23,12 @@ def load_model(filename = "model.json"):
     weights = data["weights"]
     bias = data["bias"]
 
+# truncates from the left
+def number_to_bits(number, num_bits):
+    binary_str = bin(abs(number))[2:]
+    binary_str = binary_str[-num_bits:].zfill(num_bits)
+    return [int(b) for b in binary_str]
+
 def predict(bits):
     z = sum(w * x for w, x in zip(weights, bits)) + bias
     return sigmoid(z)
@@ -41,7 +47,7 @@ def train(trials):
     for _ in range(trials):
         random.shuffle(training_data)
         for binary_str, target in training_data:
-            bits = [int(b) for b in binary_str.zfill(NUM_BITS)]
+            bits = number_to_bits(int(binary_str, 2), NUM_BITS)
             prediction = predict(bits)
             error = target - prediction
             for i in range(NUM_BITS):
@@ -49,7 +55,7 @@ def train(trials):
             bias += 0.1 * error
 
 def classify(number):
-    bits = [int(b) for b in bin(abs(number))[2:].zfill(NUM_BITS)]
+    bits = number_to_bits(number, NUM_BITS)
     prediction = predict(bits)
     return ("odd" if prediction >= 0.5 else "even", prediction)
 
