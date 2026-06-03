@@ -1,7 +1,7 @@
 import neural_network
 
 min_test_num = -3094
-max_test_num = 8213
+max_test_num = 821300
 correct = 0
 
 max_incorrect_displayed = 5
@@ -13,6 +13,5 @@ for i in range(min_test_num, max_test_num + 1):
     if not prediction_correct and incorrect < max_incorrect_displayed:
         print(f"{i} was predicted incorrectly to be {label}!")
         incorrect += 1
-
 
 print(f"{100 * correct / (max_test_num - min_test_num + 1)}% accuracy!")
