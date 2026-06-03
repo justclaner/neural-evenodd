@@ -12,10 +12,6 @@ def sigmoid(x):
 weights = [random.uniform(-1, 1) for _ in range(NUM_BITS)]
 bias = random.uniform(-1, 1)
 
-def predict(bits):
-    z = sum(w * x for w, x in zip(weights, bits)) + bias
-    return sigmoid(z)
-
 def save_model(filename = "model.json"):
     with open(filename, "w") as f:
         json.dump({"weights": weights, "bias": bias}, f)
@@ -27,8 +23,12 @@ def load_model(filename = "model.json"):
     weights = data["weights"]
     bias = data["bias"]
 
+def predict(bits):
+    z = sum(w * x for w, x in zip(weights, bits)) + bias
+    return sigmoid(z)
+
 def train(trials):
-    global weight, bias
+    global weights, bias
     if trials < 1:
         return
     
